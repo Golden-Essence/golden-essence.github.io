@@ -3,108 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Golden Essence Pvt Ltd | Premium Cordyceps Militaris</title>
+    <title>Golden Essence Pvt Ltd | Home</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-    <header>
-        <div class="logo">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100" width="250" height="60">
-        <defs>
-            <linearGradient id="goldGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="#AA8C2C" />
-                <stop offset="100%" stop-color="#D4AF37" />
-            </linearGradient>
-        </defs>
-        
-        <g transform="translate(0, 5)">
-            <circle cx="45" cy="45" r="40" fill="#2C2A24" />
-            
-            <path d="M 35 70 Q 25 45 35 25 Q 38 20 42 30 Q 37 50 43 70 Z" fill="url(#goldGrad)" />
-            <path d="M 45 70 Q 40 35 50 15 Q 54 10 57 20 Q 50 45 53 70 Z" fill="url(#goldGrad)" />
-            <path d="M 55 70 Q 60 45 65 32 Q 68 28 66 38 Q 62 55 60 70 Z" fill="url(#goldGrad)" />
-            
-            <ellipse cx="45" cy="70" rx="16" ry="3" fill="#D4AF37" opacity="0.9" />
-        </g>
-        
-        <text x="100" y="52" font-family="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" font-size="28" font-weight="bold" fill="#D4AF37" letter-spacing="1.5">GOLDEN ESSENCE</text>
-        <text x="104" y="75" font-family="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" font-size="12" font-weight="normal" fill="#FFFFFF" letter-spacing="4.5">PVT LTD</text>
-    </svg>
-</div>
-        
-        <nav>
-            <ul id="nav-links">
-                <li><a href="#" class="nav-btn active" data-target="home">Home</a></li>
-                <li><a href="#" class="nav-btn" data-target="lab">Our Lab</a></li>
-                <li><a href="#" class="nav-btn" data-target="contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    <header id="main-header"></header>
 
     <main>
-        
-        <section id="home" class="page active">
-            <div class="hero">
-                <h1>Unlock the Power of Nature</h1>
-                <p>Premium quality Cordyceps Militaris cultivated with precision and care.</p>
-                <button class="cta-btn nav-btn" data-target="lab">Explore Our Lab</button>
-            </div>
-            <div class="info-section">
-                <h2>Why Golden Essence?</h2>
-                <p>At Golden Essence Pvt Ltd, we specialize in the meticulous cultivation of <strong>Cordyceps Militaris</strong>. Known for its incredible health benefits, increased energy, and immune support, our Cordyceps is grown in highly controlled, sterile environments to ensure maximum potency and absolute purity.</p>
-            </div>
+        <section class="hero">
+            <h1>Unlock the Power of Nature</h1>
+            <p>Premium quality Cordyceps Militaris cultivated with precision and care.</p>
+            <a href="lab.html" style="text-decoration: none;">
+                <button class="cta-btn">Explore Our Lab</button>
+            </a>
         </section>
-
-        <section id="lab" class="page">
-            <div class="section-header">
-                <h2>Inside Our Lab</h2>
-                <p>Take a look at our state-of-the-art cultivation facilities.</p>
-            </div>
-            <div class="gallery">
-                <div class="gallery-item">
-                    <img src="images/lab1.jpg" alt="Cordyceps growing in jars" onerror="this.src='https://via.placeholder.com/400x300?text=Lab+Photo+1'">
-                    <p>Sterile Cultivation Environment</p>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/lab2.jpg" alt="Lab equipment" onerror="this.src='https://via.placeholder.com/400x300?text=Lab+Photo+2'">
-                    <p>Precision Temperature Control</p>
-                </div>
-                <div class="gallery-item">
-                    <img src="images/lab3.jpg" alt="Harvested Cordyceps" onerror="this.src='https://via.placeholder.com/400x300?text=Lab+Photo+3'">
-                    <p>Premium Harvest</p>
-                </div>
-            </div>
+        <section class="info-section">
+            <h2>Why Golden Essence?</h2>
+            <p>At Golden Essence Pvt Ltd, we specialize in the meticulous cultivation of <strong>Cordyceps Militaris</strong>. Known for its incredible health benefits, increased energy, and immune support, our Cordyceps is grown in highly controlled, sterile environments to ensure maximum potency and absolute purity.</p>
         </section>
-
-        <section id="contact" class="page">
-            <div class="section-header">
-                <h2>Get in Touch</h2>
-                <p>We would love to hear from you. Reach out for inquiries, partnerships, or bulk orders.</p>
-            </div>
-            <div class="contact-container">
-                <div class="contact-info">
-                    <h3>Contact Information</h3>
-                    <p><strong>Company:</strong> Golden Essence Pvt Ltd</p>
-                    <p><strong>Email:</strong> iitb.pt@gmail.com</p>
-                    <p><strong>Phone:</strong> ###### </p>
-                    <p><strong>Address:</strong> Kanpur Uttar Pradesh</p>
-                </div>
-                <form class="contact-form" onsubmit="event.preventDefault(); alert('Thank you for reaching out! We will get back to you soon.');">
-                    <input type="text" placeholder="Your Name" required>
-                    <input type="email" placeholder="Your Email" required>
-                    <textarea placeholder="Your Message" rows="5" required></textarea>
-                    <button type="submit" class="cta-btn">Send Message</button>
-                </form>
-            </div>
-        </section>
-
     </main>
 
-    <footer>
-        <p>&copy; 2026 Golden Essence Pvt Ltd. All rights reserved.</p>
-    </footer>
-
+    <footer id="main-footer"></footer>
     <script src="script.js"></script>
 </body>
 </html>
