@@ -24,7 +24,12 @@ body {
     min-height: 100vh;
 }
 
-/* --- Navigation --- */
+/* Pushes the footer to the bottom of the page */
+main {
+    flex: 1; 
+}
+
+/* --- Navigation & Logo --- */
 header {
     background-color: var(--earth-dark);
     color: var(--gold);
@@ -56,25 +61,6 @@ nav a {
 
 nav a:hover, nav a.active {
     color: var(--gold);
-}
-
-/* --- Page Management --- */
-main {
-    flex: 1;
-}
-
-.page {
-    display: none; /* Hides pages by default */
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-.page.active {
-    display: block; /* Shows the active page */
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
 }
 
 /* --- Typography & Utilities --- */
