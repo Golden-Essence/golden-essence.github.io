@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Golden Essence Pvt Ltd</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header id="main-header"></header>
+
+    <main>
+        <div class="section-header">
+            <h2>Get in Touch</h2>
+            <p>We would love to hear from you. Reach out for inquiries, partnerships, or bulk orders.</p>
+        </div>
+        <div class="contact-container">
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <p><strong>Company:</strong> Golden Essence Pvt Ltd</p>
+                <p><strong>Email:</strong> info@goldenessence.com</p>
+                <p><strong>Phone:</strong> +1 (555) 123-4567</p>
+                <p><strong>Address:</strong> 123 Nature's Way, Bio-Tech Park, City, Country</p>
+            </div>
+            <form class="contact-form" onsubmit="event.preventDefault(); alert('Thank you for reaching out! We will get back to you soon.');">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Your Message" rows="5" required></textarea>
+                <button type="submit" class="cta-btn">Send Message</button>
+            </form>
+        </div>
+    </main>
+
+    <footer id="main-footer"></footer>
+    <script src="script.js"></script>
+</body>
+</html>
