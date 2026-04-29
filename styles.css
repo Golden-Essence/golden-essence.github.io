@@ -97,7 +97,7 @@ nav a:hover, nav a.active {
 
 /* --- Home Page --- */
 .hero {
-    background: linear-gradient(rgba(44, 42, 36, 0.8), rgba(44, 42, 36, 0.8)), url('cordyceps-bg.jpg') center/cover;
+    background: linear-gradient(rgba(44, 42, 36, 0.8), rgba(44, 42, 36, 0.8)), url('bg-image.png') center/cover;
     color: var(--white);
     text-align: center;
     padding: 8rem 2rem;
