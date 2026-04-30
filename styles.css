@@ -41,6 +41,7 @@ main {
 .bg-dark { background-color: var(--earth-dark); color: var(--white); }
 
 /* --- Navigation & Logo --- */
+head/* --- Navigation & Logo --- */
 header {
     background-color: var(--earth-dark);
     color: var(--gold);
@@ -49,6 +50,12 @@ header {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    
+    /* ADD THESE THREE LINES FOR A STICKY HEADER */
+    position: sticky;
+    top: 0;
+    z-index: 1000; 
+}
 }
 
 .logo {
