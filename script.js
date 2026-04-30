@@ -50,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function() {
         <p>&copy; 2026 Golden Essence Pvt Ltd. All rights reserved.</p>
     `;
 
-    // Cart Drawer HTML
     const cartDrawerHTML = `
         <div id="cart-overlay" class="cart-overlay"></div>
         <div id="cart-drawer" class="cart-drawer">
@@ -59,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <button id="close-cart-btn" class="close-cart">&times;</button>
             </div>
             <div id="cart-items-container" class="cart-items">
-                <!-- Cart items will be injected here by JS -->
+                <!-- Cart items will be injected here -->
             </div>
             <div class="cart-footer">
                 <div class="cart-total-row">
@@ -82,10 +81,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const footerElement = document.getElementById('main-footer');
     if (footerElement) footerElement.innerHTML = footerContent;
 
-    // Inject Cart Drawer at the end of the body
     document.body.insertAdjacentHTML('beforeend', cartDrawerHTML);
 
-    // Highlight Active Page Link
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
@@ -100,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let cart = JSON.parse(localStorage.getItem('goldenEssenceCart')) || [];
 
-    // DOM Elements for Cart
     const cartOverlay = document.getElementById('cart-overlay');
     const cartDrawer = document.getElementById('cart-drawer');
     const openCartBtn = document.getElementById('open-cart-btn');
@@ -109,12 +105,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const cartSubtotalEl = document.getElementById('cart-subtotal');
     const cartCountEl = document.getElementById('cart-count');
 
-    // Open/Close Cart Functions
+    // Drawer toggles
     function openCart(e) {
         if(e) e.preventDefault();
         cartOverlay.classList.add('active');
         cartDrawer.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevents background scrolling
+        document.body.style.overflow = 'hidden';
     }
 
     function closeCart() {
@@ -127,9 +123,41 @@ document.addEventListener('DOMContentLoaded', function() {
     if(closeCartBtn) closeCartBtn.addEventListener('click', closeCart);
     if(cartOverlay) cartOverlay.addEventListener('click', closeCart);
 
-    // Render Cart Contents
+    // Sync Shop Page UI (Swaps Add button with + / - controls)
+    function syncShopUI() {
+        const productCards = document.querySelectorAll('.product-card');
+        
+        productCards.forEach(card => {
+            const title = card.querySelector('h3').textContent;
+            const buttonContainer = card.querySelector('.product-bottom');
+            const existingItem = cart.find(item => item.title === title);
+            
+            // Extract the price text so we don't accidentally delete it
+            const priceText = card.querySelector('.price').textContent;
+
+            if (existingItem) {
+                // Item is in cart: Show the interactive inline controls
+                buttonContainer.innerHTML = `
+                    <span class="price">${priceText}</span>
+                    <div class="in-cart-controls">
+                        <button class="inline-qty-btn inline-minus">-</button>
+                        <span class="inline-qty-display">${existingItem.quantity}</span>
+                        <button class="inline-qty-btn inline-plus">+</button>
+                    </div>
+                `;
+            } else {
+                // Item not in cart: Show normal "Add to Cart"
+                buttonContainer.innerHTML = `
+                    <span class="price">${priceText}</span>
+                    <button class="btn btn-add-cart">Add to Cart</button>
+                `;
+            }
+        });
+    }
+
+    // Render Cart (Draws the drawer, saves to memory, and triggers sync)
     function renderCart() {
-        cartItemsContainer.innerHTML = ''; // Clear current items
+        cartItemsContainer.innerHTML = '';
         let subtotal = 0;
         let totalItems = 0;
 
@@ -140,8 +168,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const itemTotal = item.price * item.quantity;
                 subtotal += itemTotal;
                 totalItems += item.quantity;
-
-                // Fallback image if older cart items don't have one saved
                 const imgSrc = item.img || 'https://via.placeholder.com/80x80?text=Product';
 
                 cartItemsContainer.innerHTML += `
@@ -150,12 +176,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="cart-item-details">
                             <h4 class="cart-item-title">${item.title}</h4>
                             <span class="cart-item-price">$${item.price.toFixed(2)}</span>
-                            
                             <div class="cart-qty-controls">
-                                <button class="qty-btn minus-btn">-</button>
+                                <button class="qty-btn drawer-minus-btn">-</button>
                                 <span class="qty-display">${item.quantity}</span>
-                                <button class="qty-btn plus-btn">+</button>
-                                <button class="remove-btn">Remove</button>
+                                <button class="qty-btn drawer-plus-btn">+</button>
+                                <button class="drawer-remove-btn">Remove</button>
                             </div>
                         </div>
                     </div>
@@ -163,81 +188,89 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // Update Totals and Badge
         cartSubtotalEl.textContent = `$${subtotal.toFixed(2)}`;
         if (cartCountEl) {
             cartCountEl.textContent = totalItems;
             cartCountEl.classList.remove('pop-animation');
-            void cartCountEl.offsetWidth; // Trigger reflow
+            void cartCountEl.offsetWidth;
             cartCountEl.classList.add('pop-animation');
         }
 
-        // Save to memory
         localStorage.setItem('goldenEssenceCart', JSON.stringify(cart));
+        
+        // Ensure the main shop page updates visually to match the new cart state
+        syncShopUI();
     }
 
-    // Initialize cart on load
+    // Initial render on page load
     renderCart();
 
-    // Event Delegation for Plus, Minus, and Remove buttons inside the Cart
+    // =========================================
+    // 4. EVENT DELEGATION (Handles ALL clicks)
+    // =========================================
+
+    // Drawer Event Listeners (+, -, Remove)
     cartItemsContainer.addEventListener('click', function(e) {
         const itemElement = e.target.closest('.cart-item');
         if (!itemElement) return;
 
         const index = itemElement.getAttribute('data-index');
 
-        if (e.target.classList.contains('plus-btn')) {
+        if (e.target.classList.contains('drawer-plus-btn')) {
             cart[index].quantity += 1;
             renderCart();
         } 
-        else if (e.target.classList.contains('minus-btn')) {
+        else if (e.target.classList.contains('drawer-minus-btn')) {
             if (cart[index].quantity > 1) {
                 cart[index].quantity -= 1;
             } else {
-                cart.splice(index, 1); // Remove if qty drops below 1
+                cart.splice(index, 1);
             }
             renderCart();
         } 
-        else if (e.target.classList.contains('remove-btn')) {
+        else if (e.target.classList.contains('drawer-remove-btn')) {
             cart.splice(index, 1);
             renderCart();
         }
     });
 
-    // Add to Cart Button Logic (Shop Page)
-    const addToCartButtons = document.querySelectorAll('.btn-add-cart');
-    
-    addToCartButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
+    // Shop Page Grid Event Listeners (Add to Cart, inline +, inline -)
+    const productGrid = document.querySelector('.product-grid');
+    if (productGrid) {
+        productGrid.addEventListener('click', function(e) {
             const card = e.target.closest('.product-card');
-            
-            const title = card.querySelector('h3').textContent;
-            const priceText = card.querySelector('.price').textContent;
-            const price = parseFloat(priceText.replace('$', ''));
-            const img = card.querySelector('.product-img').src; // Grab image URL
+            if (!card) return;
 
-            const existingItem = cart.find(item => item.title === title);
-            
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
+            const title = card.querySelector('h3').textContent;
+
+            // Scenario A: User clicks standard "Add to Cart"
+            if (e.target.classList.contains('btn-add-cart')) {
+                const priceText = card.querySelector('.price').textContent;
+                const price = parseFloat(priceText.replace('$', ''));
+                const img = card.querySelector('.product-img').src;
+                
                 cart.push({ title: title, price: price, quantity: 1, img: img });
+                renderCart(); // This calls syncShopUI() which updates the button visually
+            }
+            
+            // Scenario B: User clicks the inline "+" button
+            else if (e.target.classList.contains('inline-plus')) {
+                const item = cart.find(i => i.title === title);
+                if (item) item.quantity += 1;
+                renderCart();
             }
 
-            renderCart();
-            openCart(); // Automatically open drawer so user sees it added
-
-            // Button Feedback
-            const originalText = this.textContent;
-            this.textContent = 'Added ✓';
-            this.style.backgroundColor = 'var(--earth-dark)';
-            this.style.color = 'var(--gold)';
-            
-            setTimeout(() => {
-                this.textContent = originalText;
-                this.style.backgroundColor = '';
-                this.style.color = '';
-            }, 1500);
+            // Scenario C: User clicks the inline "-" button
+            else if (e.target.classList.contains('inline-minus')) {
+                const itemIndex = cart.findIndex(i => i.title === title);
+                if (itemIndex > -1) {
+                    cart[itemIndex].quantity -= 1;
+                    if (cart[itemIndex].quantity <= 0) {
+                        cart.splice(itemIndex, 1); // Remove entirely if 0
+                    }
+                    renderCart();
+                }
+            }
         });
-    });
+    }
 });
