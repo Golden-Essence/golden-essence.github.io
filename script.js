@@ -1,6 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     
-    // 1. Define the Header (Logo + Menu + Cart)
+    // =========================================
+    // 1. DEFINE HTML TEMPLATES
+    // =========================================
+    
     const headerContent = `
         <div class="logo">
             <a href="index.html" style="text-decoration: none; display: flex; align-items: center;">
@@ -30,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <li><a href="shop.html" class="nav-link" data-page="shop.html">Shop</a></li>
                 <li><a href="contact.html" class="nav-link" data-page="contact.html">Contact</a></li>
                 <li class="cart-nav-item">
-                    <a href="#" class="cart-icon-link">
+                    <a href="#" class="cart-icon-link" id="open-cart-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="9" cy="21" r="1"></circle>
                             <circle cx="20" cy="21" r="1"></circle>
@@ -43,19 +46,46 @@ document.addEventListener('DOMContentLoaded', function() {
         </nav>
     `;
 
-    // 2. Define the Footer
     const footerContent = `
         <p>&copy; 2026 Golden Essence Pvt Ltd. All rights reserved.</p>
     `;
 
-    // 3. Inject the Header and Footer
+    // Cart Drawer HTML
+    const cartDrawerHTML = `
+        <div id="cart-overlay" class="cart-overlay"></div>
+        <div id="cart-drawer" class="cart-drawer">
+            <div class="cart-header">
+                <h2>Your Apothecary Cart</h2>
+                <button id="close-cart-btn" class="close-cart">&times;</button>
+            </div>
+            <div id="cart-items-container" class="cart-items">
+                <!-- Cart items will be injected here by JS -->
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total-row">
+                    <span>Subtotal:</span>
+                    <span id="cart-subtotal" class="cart-subtotal-price">$0.00</span>
+                </div>
+                <p class="cart-taxes-note">Taxes and shipping calculated at checkout.</p>
+                <button class="btn btn-checkout">Proceed to Checkout</button>
+            </div>
+        </div>
+    `;
+
+    // =========================================
+    // 2. INJECT HTML INTO PAGE
+    // =========================================
+
     const headerElement = document.getElementById('main-header');
     if (headerElement) headerElement.innerHTML = headerContent;
 
     const footerElement = document.getElementById('main-footer');
     if (footerElement) footerElement.innerHTML = footerContent;
 
-    // 4. Highlight Active Page Link
+    // Inject Cart Drawer at the end of the body
+    document.body.insertAdjacentHTML('beforeend', cartDrawerHTML);
+
+    // Highlight Active Page Link
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
@@ -65,70 +95,148 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // =========================================
-    // 5. CART LOGIC
+    // 3. CART LOGIC & INTERACTIVITY
     // =========================================
     
-    // Load existing cart from browser memory (or create empty array)
     let cart = JSON.parse(localStorage.getItem('goldenEssenceCart')) || [];
 
-    // Function to update the number on the cart icon
-    function updateCartUI() {
-        const cartCountElement = document.getElementById('cart-count');
-        if (cartCountElement) {
-            // Calculate total quantity of items
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            cartCountElement.textContent = totalItems;
-            
-            // Add a quick animation class to make it "pop" when updated
-            cartCountElement.classList.remove('pop-animation');
-            void cartCountElement.offsetWidth; // Trigger reflow
-            cartCountElement.classList.add('pop-animation');
-        }
+    // DOM Elements for Cart
+    const cartOverlay = document.getElementById('cart-overlay');
+    const cartDrawer = document.getElementById('cart-drawer');
+    const openCartBtn = document.getElementById('open-cart-btn');
+    const closeCartBtn = document.getElementById('close-cart-btn');
+    const cartItemsContainer = document.getElementById('cart-items-container');
+    const cartSubtotalEl = document.getElementById('cart-subtotal');
+    const cartCountEl = document.getElementById('cart-count');
+
+    // Open/Close Cart Functions
+    function openCart(e) {
+        if(e) e.preventDefault();
+        cartOverlay.classList.add('active');
+        cartDrawer.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevents background scrolling
     }
 
-    // Initialize the cart counter when page loads
-    updateCartUI();
+    function closeCart() {
+        cartOverlay.classList.remove('active');
+        cartDrawer.classList.remove('active');
+        document.body.style.overflow = '';
+    }
 
-    // Attach click events to all "Add to Cart" buttons
+    if(openCartBtn) openCartBtn.addEventListener('click', openCart);
+    if(closeCartBtn) closeCartBtn.addEventListener('click', closeCart);
+    if(cartOverlay) cartOverlay.addEventListener('click', closeCart);
+
+    // Render Cart Contents
+    function renderCart() {
+        cartItemsContainer.innerHTML = ''; // Clear current items
+        let subtotal = 0;
+        let totalItems = 0;
+
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p class="empty-cart-msg">Your cart is currently empty.</p>';
+        } else {
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                totalItems += item.quantity;
+
+                // Fallback image if older cart items don't have one saved
+                const imgSrc = item.img || 'https://via.placeholder.com/80x80?text=Product';
+
+                cartItemsContainer.innerHTML += `
+                    <div class="cart-item" data-index="${index}">
+                        <img src="${imgSrc}" alt="${item.title}" class="cart-item-img">
+                        <div class="cart-item-details">
+                            <h4 class="cart-item-title">${item.title}</h4>
+                            <span class="cart-item-price">$${item.price.toFixed(2)}</span>
+                            
+                            <div class="cart-qty-controls">
+                                <button class="qty-btn minus-btn">-</button>
+                                <span class="qty-display">${item.quantity}</span>
+                                <button class="qty-btn plus-btn">+</button>
+                                <button class="remove-btn">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Update Totals and Badge
+        cartSubtotalEl.textContent = `$${subtotal.toFixed(2)}`;
+        if (cartCountEl) {
+            cartCountEl.textContent = totalItems;
+            cartCountEl.classList.remove('pop-animation');
+            void cartCountEl.offsetWidth; // Trigger reflow
+            cartCountEl.classList.add('pop-animation');
+        }
+
+        // Save to memory
+        localStorage.setItem('goldenEssenceCart', JSON.stringify(cart));
+    }
+
+    // Initialize cart on load
+    renderCart();
+
+    // Event Delegation for Plus, Minus, and Remove buttons inside the Cart
+    cartItemsContainer.addEventListener('click', function(e) {
+        const itemElement = e.target.closest('.cart-item');
+        if (!itemElement) return;
+
+        const index = itemElement.getAttribute('data-index');
+
+        if (e.target.classList.contains('plus-btn')) {
+            cart[index].quantity += 1;
+            renderCart();
+        } 
+        else if (e.target.classList.contains('minus-btn')) {
+            if (cart[index].quantity > 1) {
+                cart[index].quantity -= 1;
+            } else {
+                cart.splice(index, 1); // Remove if qty drops below 1
+            }
+            renderCart();
+        } 
+        else if (e.target.classList.contains('remove-btn')) {
+            cart.splice(index, 1);
+            renderCart();
+        }
+    });
+
+    // Add to Cart Button Logic (Shop Page)
     const addToCartButtons = document.querySelectorAll('.btn-add-cart');
     
     addToCartButtons.forEach(button => {
         button.addEventListener('click', function(e) {
-            // Find the closest product card to the clicked button
             const card = e.target.closest('.product-card');
             
-            // Extract product details from the HTML
             const title = card.querySelector('h3').textContent;
             const priceText = card.querySelector('.price').textContent;
-            const price = parseFloat(priceText.replace('$', '')); // Convert "$45.00" to 45.00
+            const price = parseFloat(priceText.replace('$', ''));
+            const img = card.querySelector('.product-img').src; // Grab image URL
 
-            // Check if item is already in the cart
             const existingItem = cart.find(item => item.title === title);
             
             if (existingItem) {
-                existingItem.quantity += 1; // Increase quantity
+                existingItem.quantity += 1;
             } else {
-                cart.push({ title: title, price: price, quantity: 1 }); // Add new item
+                cart.push({ title: title, price: price, quantity: 1, img: img });
             }
 
-            // Save the updated cart back to browser memory
-            localStorage.setItem('goldenEssenceCart', JSON.stringify(cart));
-            
-            // Update the header icon
-            updateCartUI();
+            renderCart();
+            openCart(); // Automatically open drawer so user sees it added
 
-            // Button Visual Feedback (Changes to "Added ✓" temporarily)
+            // Button Feedback
             const originalText = this.textContent;
             this.textContent = 'Added ✓';
             this.style.backgroundColor = 'var(--earth-dark)';
             this.style.color = 'var(--gold)';
-            this.style.borderColor = 'var(--earth-dark)';
             
             setTimeout(() => {
                 this.textContent = originalText;
                 this.style.backgroundColor = '';
                 this.style.color = '';
-                this.style.borderColor = '';
             }, 1500);
         });
     });
