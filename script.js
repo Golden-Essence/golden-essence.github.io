@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <ul id="nav-links">
                 <li><a href="index.html" class="nav-link" data-page="index.html">Home</a></li>
                 <li><a href="lab.html" class="nav-link" data-page="lab.html">Our Lab</a></li>
+                <li><a href="shop.html" class="nav-link" data-page="shop.html">Shop</a></li>
                 <li><a href="contact.html" class="nav-link" data-page="contact.html">Contact</a></li>
             </ul>
         </nav>
