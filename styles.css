@@ -362,3 +362,124 @@ footer {
         padding: 3rem 5%;
     }
 }
+
+
+/* =========================================
+   Shop Page Styles
+   ========================================= */
+
+.shop-hero {
+    background-color: var(--earth-dark);
+    color: var(--white);
+    padding: 5rem 2rem;
+    border-bottom: 5px solid var(--gold);
+}
+
+.shop-hero h1 {
+    font-size: 3rem;
+    color: var(--gold);
+    margin-bottom: 1rem;
+}
+
+.shop-hero p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.shop-section {
+    padding: 4rem 0 6rem 0;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2.5rem;
+}
+
+.product-card {
+    background: var(--white);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative; /* For positioning the badge */
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.product-img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+/* Optional "Best Seller" badge */
+.badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: var(--gold);
+    color: var(--earth-dark);
+    padding: 5px 15px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.product-info {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Pushes the bottom section down */
+}
+
+.product-info h3 {
+    color: var(--earth-dark);
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.product-desc {
+    color: var(--text-color);
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+.product-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.price {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--earth-dark);
+}
+
+.btn-add-cart {
+    background-color: var(--gold);
+    color: var(--earth-dark);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 0; /* Override generic .btn margin */
+}
+
+.btn-add-cart:hover {
+    background-color: var(--dark-gold);
+    color: var(--white);
+}
