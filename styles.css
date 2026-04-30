@@ -365,121 +365,173 @@ footer {
 
 
 /* =========================================
-   Shop Page Styles
+   Premium Shop Page Styles
    ========================================= */
 
 .shop-hero {
-    background-color: var(--earth-dark);
+    position: relative;
+    background: url('images/lab3.jpg') center/cover no-repeat; /* Uses your existing image */
     color: var(--white);
-    padding: 5rem 2rem;
-    border-bottom: 5px solid var(--gold);
+    padding: 8rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 4px solid var(--gold);
+}
+
+.shop-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(44, 42, 36, 0.7), rgba(44, 42, 36, 0.9));
+    z-index: 1;
+}
+
+.shop-hero-content {
+    position: relative;
+    z-index: 2;
 }
 
 .shop-hero h1 {
-    font-size: 3rem;
+    font-size: 3.5rem;
     color: var(--gold);
     margin-bottom: 1rem;
+    letter-spacing: 1px;
 }
 
 .shop-hero p {
-    font-size: 1.2rem;
-    max-width: 600px;
+    font-size: 1.25rem;
+    max-width: 650px;
     margin: 0 auto;
+    color: var(--earth-light);
 }
 
 .shop-section {
-    padding: 4rem 0 6rem 0;
+    padding: 5rem 0 7rem 0;
 }
 
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
 }
 
+/* Premium Card Styling */
 .product-card {
     background: var(--white);
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative; /* For positioning the badge */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: all 0.4s ease;
+    position: relative;
     display: flex;
     flex-direction: column;
+    border: 1px solid rgba(0,0,0,0.03);
 }
 
 .product-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+/* Image Hover Zoom Effect */
+.product-image-wrapper {
+    width: 100%;
+    height: 300px;
+    overflow: hidden; /* Keeps the zoomed image inside the card */
 }
 
 .product-img {
     width: 100%;
-    height: 280px;
+    height: 100%;
     object-fit: cover;
-    border-bottom: 1px solid #eee;
+    transition: transform 0.6s ease;
 }
 
-/* Optional "Best Seller" badge */
+.product-card:hover .product-img {
+    transform: scale(1.08); /* Smooth zoom on hover */
+}
+
+/* Badge Styling */
 .badge {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    background-color: var(--gold);
-    color: var(--earth-dark);
-    padding: 5px 15px;
-    font-size: 0.85rem;
+    top: 20px;
+    right: 20px;
+    background-color: var(--earth-dark);
+    color: var(--gold);
+    padding: 6px 16px;
+    font-size: 0.8rem;
     font-weight: bold;
-    border-radius: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 30px;
+    z-index: 3;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
 
+/* Product Information Layout */
 .product-info {
-    padding: 1.5rem;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
-    flex-grow: 1; /* Pushes the bottom section down */
+    flex-grow: 1;
+}
+
+.product-category {
+    font-size: 0.85rem;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
 }
 
 .product-info h3 {
     color: var(--earth-dark);
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    line-height: 1.3;
 }
 
 .product-desc {
-    color: var(--text-color);
-    font-size: 0.95rem;
-    margin-bottom: 1.5rem;
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 2rem;
     flex-grow: 1;
+    line-height: 1.6;
 }
 
+/* Pricing and Button Row */
 .product-bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: auto;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f0f0f0;
 }
 
 .price {
-    font-size: 1.4rem;
-    font-weight: bold;
+    font-size: 1.5rem;
+    font-weight: 700;
     color: var(--earth-dark);
 }
 
 .btn-add-cart {
-    background-color: var(--gold);
+    background-color: transparent;
     color: var(--earth-dark);
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 4px;
-    font-weight: bold;
+    border: 2px solid var(--earth-dark);
+    padding: 0.7rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 0; /* Override generic .btn margin */
+    transition: all 0.3s ease;
+    margin-top: 0;
 }
 
 .btn-add-cart:hover {
-    background-color: var(--dark-gold);
-    color: var(--white);
+    background-color: var(--earth-dark);
+    color: var(--gold);
 }
