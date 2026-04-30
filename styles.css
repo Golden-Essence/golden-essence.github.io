@@ -788,3 +788,45 @@ footer {
     background-color: var(--gold);
     color: var(--earth-dark);
 }
+
+/* =========================================
+   Inline Shop Page Quantity Controls
+   ========================================= */
+
+.in-cart-controls {
+    display: flex;
+    align-items: center;
+    background-color: var(--earth-dark);
+    border-radius: 6px;
+    height: 42px; /* Matches the button height */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border: 2px solid var(--earth-dark);
+}
+
+.inline-qty-btn {
+    background: transparent;
+    border: none;
+    color: var(--gold);
+    width: 35px;
+    height: 100%;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inline-qty-btn:hover {
+    background: var(--gold);
+    color: var(--earth-dark);
+}
+
+.inline-qty-display {
+    color: var(--white);
+    font-weight: bold;
+    min-width: 30px;
+    text-align: center;
+    font-size: 1rem;
+}
