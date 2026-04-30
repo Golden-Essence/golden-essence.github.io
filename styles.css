@@ -41,21 +41,20 @@ main {
 .bg-dark { background-color: var(--earth-dark); color: var(--white); }
 
 /* --- Navigation & Logo --- */
-head/* --- Navigation & Logo --- */
 header {
-    background-color: var(--earth-dark);
+    background-color: var(--earth-dark) !important; /* Forces the color to stay */
     color: var(--gold);
     padding: 1rem 5%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     
-    /* ADD THESE THREE LINES FOR A STICKY HEADER */
+    /* Bulletproof Sticky Setup */
+    position: -webkit-sticky; /* Required for Safari browsers */
     position: sticky;
     top: 0;
     z-index: 1000; 
-}
 }
 
 .logo {
