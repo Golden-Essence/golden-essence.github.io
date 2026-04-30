@@ -29,6 +29,17 @@ main {
     flex: 1; 
 }
 
+/* --- Utilities --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5%;
+}
+
+.text-center { text-align: center; }
+.bg-light { background-color: var(--white); }
+.bg-dark { background-color: var(--earth-dark); color: var(--white); }
+
 /* --- Navigation & Logo --- */
 header {
     background-color: var(--earth-dark);
@@ -44,7 +55,6 @@ header {
     display: flex;
     align-items: center;
     cursor: pointer;
-    /* Just the name based logo as requested */
     font-weight: bold;
     font-size: 1.5rem;
     color: var(--gold);
@@ -67,10 +77,10 @@ nav a:hover, nav a.active {
     color: var(--gold);
 }
 
-/* --- Typography & Utilities --- */
+/* --- Typography & Shared Buttons --- */
 .section-header {
     text-align: center;
-    padding: 4rem 2rem 2rem;
+    padding: 4rem 0 2rem;
 }
 
 .section-header h2 {
@@ -79,7 +89,15 @@ nav a:hover, nav a.active {
     margin-bottom: 0.5rem;
 }
 
-.cta-btn {
+.section-header p {
+    color: var(--text-color);
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.cta-btn, .btn {
+    display: inline-block;
     background-color: var(--gold);
     color: var(--earth-dark);
     border: none;
@@ -88,10 +106,12 @@ nav a:hover, nav a.active {
     font-weight: bold;
     cursor: pointer;
     border-radius: 4px;
+    text-decoration: none;
     transition: background-color 0.3s ease;
+    margin-top: 1rem;
 }
 
-.cta-btn:hover {
+.cta-btn:hover, .btn:hover {
     background-color: var(--dark-gold);
 }
 
@@ -136,47 +156,101 @@ nav a:hover, nav a.active {
     font-size: 1.1rem;
 }
 
-/* --- New Grid Layout for Home Page Content --- */
-.grid-container {
+/* --- Shared Grid Layouts --- */
+.grid-container, .grid-3-col {
     display: grid;
-    /* This automatically stacks to 1 column on mobile, 3 on desktop */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
     gap: 2rem;
-    text-align: left;
     margin-top: 2rem;
 }
 
-.grid-card {
+.grid-card, .process-card {
     background-color: var(--earth-light);
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    border-top: 3px solid var(--gold); /* Adds a subtle branded touch */
+    border-top: 3px solid var(--gold); 
     transition: transform 0.3s ease;
 }
 
-.grid-card:hover {
+.grid-card:hover, .process-card:hover {
     transform: translateY(-5px);
 }
 
-.grid-card h3 {
+.grid-card h3, .process-card h3 {
     color: var(--earth-dark);
     font-size: 1.3rem;
     margin-bottom: 1rem;
 }
 
-.grid-card p {
+.grid-card p, .process-card p {
     color: var(--text-color);
     font-size: 1rem;
     margin: 0;
 }
 
-/* --- Lab Page (Gallery) --- */
+/* =========================================
+   Lab Page Enhancements
+   ========================================= */
+
+.lab-hero {
+    background-color: var(--white);
+    text-align: center;
+    padding: 6rem 2rem;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.lab-hero h1 {
+    font-size: 3rem;
+    color: var(--earth-dark);
+    margin-bottom: 10px;
+}
+
+.lab-hero .subtitle {
+    font-size: 1.5rem;
+    color: var(--gold);
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.lab-hero p:last-child {
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 1.2rem;
+}
+
+.lab-process, .lab-tech, .lab-gallery {
+    padding: 4rem 0;
+}
+
+.tech-list {
+    list-style: none;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.tech-list li {
+    background: var(--earth-light);
+    margin-bottom: 15px;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid var(--gold);
+}
+
+.lab-cta {
+    padding: 5rem 0;
+}
+
+.lab-cta h2 {
+    color: var(--gold);
+    margin-bottom: 1rem;
+}
+
+/* Enhanced Gallery */
 .gallery {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
-    padding: 0 10% 4rem;
 }
 
 .gallery-item {
@@ -198,11 +272,19 @@ nav a:hover, nav a.active {
     display: block;
 }
 
-.gallery-item p {
-    padding: 1rem;
+.gallery-caption {
+    padding: 1.5rem;
     text-align: center;
-    font-weight: bold;
+}
+
+.gallery-caption h4 {
     color: var(--earth-dark);
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.gallery-caption p {
+    color: var(--text-color);
 }
 
 /* --- Contact Page --- */
@@ -268,11 +350,11 @@ footer {
         gap: 1rem;
     }
     
-    .hero {
+    .hero, .lab-hero {
         padding: 5rem 1rem;
     }
     
-    .hero h1 {
+    .hero h1, .lab-hero h1 {
         font-size: 2.5rem;
     }
     
